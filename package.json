@@ -1,0 +1,24 @@
+{
+  "name": "qr-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "blob": "0.0.5",
+    "blob-to-buffer": "^1.2.8",
+    "buffer": "^5.2.1",
+    "filereader": "^0.10.3",
+    "fs": "0.0.1-security",
+    "jimp": "^0.6.1",
+    "node-fetch": "^2.3.0",
+    "node-telegram-bot-api": "^0.30.0",
+    "qr-image": "^3.2.0",
+    "qrcode-reader": "^1.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
