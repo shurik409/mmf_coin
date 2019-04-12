@@ -88,8 +88,10 @@ bot.on('photo', (msg) => {
 
 async function parseFile(chatId, file_path){
     console.log(file_path);
+    console.log(`http://api.qrserver.com/v1/read-qr-code/?fileurl=https://api.telegram.org/file/bot${token}/${file_path}`);
     fetch(`http://api.qrserver.com/v1/read-qr-code/?fileurl=https://api.telegram.org/file/bot${token}/${file_path}`)
-        .then(data => console.log(data))
+        .then(data => data.json())
+        .then(data => console.log(data));
     // .then(res => res.arrayBuffer())
     // .then(async images => {
     //     Jimp.read(images, function(err, image) {
