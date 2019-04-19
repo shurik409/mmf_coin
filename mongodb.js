@@ -23,7 +23,10 @@ async function setNewUser(userId, userColection){
     let user = await userColection.insertOne({
         id: `${userId}`,
         balance: 0,
-        operations: ['Create']
+        operations: [{
+            type: 'Create',
+            time: new Date(Date.now()).toString()
+        }]
     })
     return user.ops[0];
 }
@@ -35,23 +38,31 @@ const getBalance = async (userId) =>{
         client = new MongoClient(uri, { useNewUrlParser: true })
         client.connect(async err => {
             if(err) console.log(err);
-            const userColection = client.db("mmfcoins").collection("users.balance");
-            let data = await userColection.findOne({id: `${userId}`});
-            if(data){
-                console.log('user founded');
-                client.close();
-                res(data);
-            } else {
-                let newUser = await setNewUser(userId, userColection);
-                console.log('user created');
-                client.close();
-                res(newUser);
-            }
+            let balance = await getBalanceFromClient(client, userId);
+            client.close();
+            res(balance);
         })
     });
 
     return userData;
 }
+
+const getBalanceFromClient = async (client, userId) => {
+    const userColection = client.db("mmfcoins").collection("users.balance");
+    let data = await userColection.findOne({id: `${userId}`});
+    let balance;
+
+    if(data){
+        console.log('user founded');
+        balance = data;
+    } else {
+        let newUser = await setNewUser(userId, userColection);
+        console.log('user created');
+        balance = newUser;
+    }
+    return balance;
+}
+
 
 const addToBalance = async (userId, count) => {
     userData = await new Promise((res, rej) => {
@@ -59,12 +70,14 @@ const addToBalance = async (userId, count) => {
         client.connect(async err => {
             if(err) console.log(err);
             const userColection = client.db("mmfcoins").collection("users.balance");
-            console.log(0);
-            let balance = await getBalance(userId)
+            let balance = await getBalanceFromClient(client, userId)
             balance.balance += count;
-            console.log(0, balance);
+            balance.operations.push({
+                type:`Change balance on ${count}`,
+                time: new Date(Date.now()).toString()
+            })
             let data = await userColection.findOneAndReplace({id: `${userId}`}, balance);
-            console.log(1,data);
+            client.close();
             res(data.value)
         })
     });

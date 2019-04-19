@@ -91,7 +91,14 @@ async function parseFile(chatId, file_path){
     console.log(`http://api.qrserver.com/v1/read-qr-code/?fileurl=https://api.telegram.org/file/bot${token}/${file_path}`);
     fetch(`http://api.qrserver.com/v1/read-qr-code/?fileurl=https://api.telegram.org/file/bot${token}/${file_path}`)
         .then(data => data.json())
-        .then(data => console.log(data));
+        .then(data => {
+            if(data[0].symbol[0].data){
+                value = data[0].symbol[0].data;
+                console.log('Result', value);
+                fromQrResult(chatId, value);
+                bot.sendMessage(chatId, value)
+            }
+        });
     // .then(res => res.arrayBuffer())
     // .then(async images => {
     //     Jimp.read(images, function(err, image) {
