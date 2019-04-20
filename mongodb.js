@@ -45,7 +45,7 @@ const getBalance = async (userId, from) =>{
         client.connect(async err => {
             if(err) console.log(err);
             let balance = await getBalanceFromClient(client, userId, from);
-            client.close();
+            await client.close();
             res(balance);
         })
     });
@@ -102,7 +102,7 @@ const addToBalance = async (userId, qrHash, from) => {
                     text: 'Этот QrCode уже использовался'
                 }
             }
-            client.close();
+            await client.close();
             res(data)
         })
     });
@@ -117,7 +117,7 @@ const addQrCode = async(value, from) => {
         client.connect(async err => {
             if(err) console.log(err);
             let balance = await setNewQrCodes(value, client, from);
-            client.close();
+            await client.close();
             res(balance);
         })
     });
