@@ -1,5 +1,5 @@
+process.env.NTBA_FIX_319 = 1
 const mongodbClient = require('./mongodb')
-
 const TelegramBot = require('node-telegram-bot-api');
 const qr = require('qr-image');
 const fetch = require('node-fetch');
