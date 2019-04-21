@@ -8,6 +8,10 @@ const token = '802358275:AAF50V5R3lPrTrmkhVjYoI1O3wlOGu5lUpQ';
 
 const bot = new TelegramBot(token, {polling: true});
 
+require('https').createServer().listen(process.env.PORT || 5000).on('request', function(req, res){
+    res.end('')
+  });
+
 bot.onText(/\/echo (.+)/, (msg, match) => {
     const chatId = msg.chat.id;
     const resp = match[1]; // the captured "whatever"
