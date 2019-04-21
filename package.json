@@ -22,6 +22,9 @@
     "start": "node index.js",
     "build": "node index.js"
   },
+  "engines": {
+    "node": "10.15.0"
+  },
   "author": "",
   "license": "ISC"
 }
