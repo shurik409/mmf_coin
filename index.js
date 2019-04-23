@@ -43,7 +43,7 @@ require('https').createServer().listen(process.env.PORT || 5000).on('request', f
 //     });
 // });
 
-const getBalance = false;
+let getBalance = false;
 
 bot.onText(/\/balance/, async (msg, match) => {
     if(!getBalance){
