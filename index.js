@@ -43,11 +43,17 @@ require('https').createServer().listen(process.env.PORT || 5000).on('request', f
 //     });
 // });
 
+const getBalance = false;
+
 bot.onText(/\/balance/, async (msg, match) => {
-    const chatId = msg.chat.id;
-    balance = await mongodbClient.getBalance(chatId, msg.from);
-    console.log(3, balance);
-    bot.sendMessage(chatId, `Your balance: ${balance.balance}`);
+    if(!getBalance){
+        const chatId = msg.chat.id;
+        getBalance = true;
+        balance = await mongodbClient.getBalance(chatId, msg.from);
+        getBalance = false;
+        console.log(3, balance);
+        bot.sendMessage(chatId, `Your balance: ${balance.balance}`);
+    }
 })
 
 // bot.on('callback_query', async (msg) => {
