@@ -90,7 +90,7 @@ async function parseFile(chatId, file_path, msg){
 async function fromQrResult(chatId, result, msg) {
     let queryResult = await mongodbClient.addToBalance(chatId, result, msg.from);
     if(queryResult.added){
-        bot.sendMessage(chatId, `${queryResult.addedValue} успешно добавленно на ваш баланс`);
+        bot.sendMessage(chatId, `${queryResult.addedValue >= 0 ? `${queryResult.addedValue} успешно добавленно на ваш баланс` : `${queryResult.addedValue} успешно снято с вашего баланса` }`);
     } else{
         bot.sendMessage(chatId, queryResult.text);
     }
