@@ -83,6 +83,8 @@ async function parseFile(chatId, file_path, msg){
                 value = data[0].symbol[0].data;
                 console.log('Result', value);
                 fromQrResult(chatId, value, msg);
+            } else{
+                bot.sendMessage(chatId, 'Что-то не то, повторите ещё раз');
             }
         });
 }
